@@ -149,12 +149,14 @@ var ExtraGeneVariantData = (function (ExtraGeneVariantData) {
       var buttonRowInner = this.addVariantButtonTemplate.evaluate(data);
       var geneRowInner = this.geneRowTemplate.evaluate(data);
 
-      geneRowInner = geneRowInner.replace(/_\d+_|=\d+&/g, function (placeholder) {
+      geneRowInner = geneRowInner.replace(/_\d+_|=\d+&|xwiki-form-strategy-\d+/g, function (placeholder) {
         switch(true) {
           case /_\d+_/.test(placeholder):
             return '_' + geneIndex + '_';
           case /=\d+&/.test(placeholder):
             return '_' + geneIndex + '_';
+          case /xwiki-form-strategy-\d+/.test(placeholder):
+            return 'xwiki-form-strategy-' + geneIndex;
           default:
             return "";
         }
@@ -313,6 +315,8 @@ var ExtraGeneVariantData = (function (ExtraGeneVariantData) {
             return '_' + varIndex + '_';
           case /=\d+&/.test(placeholder):
             return '=' + varIndex + '&';
+          case /xwiki-form-evidence-\d+/.test(placeholder):
+            return 'xwiki-form-evidence-' + varIndex;
           case /\$\{object.xWikiClass.name\}/.test(placeholder):
             return this.geneVariantClassName;
           case /\$\{object.number\}/.test(placeholder):
@@ -333,7 +337,7 @@ var ExtraGeneVariantData = (function (ExtraGeneVariantData) {
 
       var newMoreInfoRow = new Element('tr', {class :'variant-gene-' + geneIndex + ' variant-moreinfo-row variant-hide-heading-' + geneIndex});
       var varMoreInfoInner = this.moreInfoSectionTemplate.evaluate(data);
-      varMoreInfoInner = varMoreInfoInner.replace(/_\d+_|=\d+&|\$\{object.xWikiClass.name\}|\$\{object.number\}/g,
+      varMoreInfoInner = varMoreInfoInner.replace(/_\d+_|=\d+&|xwiki-form-evidence-\d+|\$\{object.xWikiClass.name\}|\$\{object.number\}/g,
         function (placeholder) {
           return evaluateTemplate(placeholder);
         });
